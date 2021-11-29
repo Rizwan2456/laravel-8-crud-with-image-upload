@@ -15,8 +15,13 @@
         <div class="row mt-2">
             <div class="col">
                 <h1>Students List</h1>
+                <a href="{{ route('students.create') }}" class="btn btn-primary float-end">Add Student</a>
+                @if (session()->has('status'))
+                    <div class="alert alert-primary float-start">{{session()->get('status')}}</div>
+                @endif
 
             </div>
+        </div>
             <div class="row">
                 <div class="col">
                     <table class="table table-bordered table-striped table-hover mt-1">
@@ -37,15 +42,19 @@
                             <td>{{$student->name}}</td>
                             <td>{{$student->email}}</td>
                             <td>{{$student->image}}</td>
-                            <td><button class="btn btn-primary">Edit</button>
-                            <button class="btn btn-danger">Delete</button></td>
+                            <td><a href="{{ route('students.edit', $student->id) }}" class="btn btn-primary">Edit</a>
+                             <form action="{{ route('students.destroy', $student->id) }}" method="post" style="display: inline;">
+                                @csrf
+                                @method('DELETE')   
+                                <input type="submit" name="submit" value="Delete" class="btn btn-danger"/>
+                             </form>
+                            </td>
                         </tr>
                         @endforeach
                        
                         </tbody>
                     </table>
-                </div>
-            </div>
+              </div>
         </div>
     </div>
     
